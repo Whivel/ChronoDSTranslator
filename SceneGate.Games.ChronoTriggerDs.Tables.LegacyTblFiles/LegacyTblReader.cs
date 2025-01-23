@@ -1,0 +1,164 @@
+﻿using SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles
+{
+    //only for testing purposes
+    internal interface ILegacyTblReader
+    {
+        Task<IDictionary<byte, TableNode>> FromDirectoryAsync(DirectoryInfo directory);
+    }
+
+    internal sealed class LegacyTblReader: ILegacyTblReader
+    {
+        private const int MAX_INCLUDE_DEPTH = 2;
+        private const string INCLUDE_COMMAND = ".include ";
+        private const int INCLUDE_COMMAND_LENGTH = 9;
+        private const string INCLUDE_DIR = "tables";
+        private static readonly char[] TABLE_SEPARATOR = ['='];
+
+        public async Task<IDictionary<byte, TableNode>> FromDirectoryAsync(DirectoryInfo directory)
+        {
+            ArgumentNullException.ThrowIfNull(directory);
+
+            var root = new Dictionary<byte, TableNode>();
+            foreach (var file in directory.EnumerateFiles("*.tbl"))
+            {
+                await ReadTablesAsync(file, root);
+            }
+            return root;
+        }
+
+
+        private static async Task ReadTablesAsync(FileInfo file, IDictionary<byte, TableNode> root, int includeDepth = 0)
+        {
+            ArgumentNullException.ThrowIfNull(file);
+            ArgumentOutOfRangeException.ThrowIfNegative(includeDepth);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(includeDepth, MAX_INCLUDE_DEPTH);
+
+            using var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var reader = new StreamReader(stream);
+            while (!reader.EndOfStream)
+            {
+                var line = (await reader.ReadLineAsync())?.Trim() ?? "";
+                if (TryHandleEmpty(line))
+                {
+                    continue;
+                }
+                if (TryHandleInclude(line, out var includeFile))
+                {
+                    await ReadTablesAsync(includeFile!, root, includeDepth + 1);
+                    continue;
+                }
+                if (TryHandleAssignment(line, out var key, out var value))
+                {
+                    AddToBranches(key, value, root);
+                    continue;
+                }
+                throw new TableLineException(line);
+
+            }
+        }
+
+        private static bool TryHandleInclude(string line, out FileInfo? includeFile)
+        {
+            includeFile = null;
+            if (!line.StartsWith(INCLUDE_COMMAND))
+            {
+                return false;
+            }
+            var fileName = line[INCLUDE_COMMAND_LENGTH..];
+            if (!fileName.EndsWith(".tbl"))
+            {
+                throw new IncludeCommandFilenameException(fileName);
+            }
+            if (Path.GetInvalidFileNameChars().Any(fileName.Contains))
+            {
+                throw new IncludeCommandFilenameException(fileName);
+            }
+            var filePath = Path.Combine(INCLUDE_DIR, fileName);
+            var file = new FileInfo(filePath);
+            if (!file.Exists)
+            {
+                throw new IncludeCommandFileNotFoundException(fileName);
+            }
+            includeFile = file;
+            return true;
+        }
+
+        private static bool TryHandleEmpty(string line)
+        {
+            return string.IsNullOrEmpty(line);
+        }
+
+        private static bool TryHandleAssignment(string line, out byte[] key, out string value)
+        {
+            key = [];
+            value = string.Empty;
+
+            var parts = line.Split(TABLE_SEPARATOR, 2);
+            if (parts.Length != 2)
+            {
+                return false;
+            }
+
+            var keyStr = parts[0];
+            if (string.IsNullOrEmpty(keyStr) || keyStr.Length % 2 != 0)
+            {
+                return false;
+            }
+
+            try
+            {
+                key = Convert.FromHexString(keyStr);
+                value = parts[1];
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+        }
+
+        private static void AddToBranches(byte[] key, string value, in IDictionary<byte, TableNode> branches)
+        {
+            var lastNodeBranch = branches;
+            //navigate the tree until the second last node
+            for (int i = 0; i < key.Length - 1; i++)
+            {
+                var currentKey = key[i];
+                //there is already a node with the current key (sequence key[0..i])
+                if (branches.TryGetValue(currentKey, out var node))
+                {
+                    lastNodeBranch = node.Branches;
+                    continue;
+                }
+
+                //create a new node with the current key but without "translation"
+                var nextNode = new TableNode(new Dictionary<byte, TableNode>(), string.Empty);
+                lastNodeBranch.Add(currentKey, nextNode);
+                lastNodeBranch = nextNode.Branches;
+            }
+            //lastNodeBranch is the second last node (sequence key[0..key.Length-2])
+            var lastKey = key[^1];
+            if (lastNodeBranch.TryGetValue(lastKey, out _))
+            {
+                //there is already a node with key sequence
+                throw new DuplicateTableKeyException(key);
+            }
+
+            //create a new node with the last key and the "translation" value
+            lastNodeBranch.Add(lastKey, new TableNode(ImmutableDictionary<byte, TableNode>.Empty, value));
+
+
+        }
+    }
+}
