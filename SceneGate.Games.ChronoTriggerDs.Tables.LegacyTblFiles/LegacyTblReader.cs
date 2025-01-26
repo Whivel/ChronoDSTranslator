@@ -1,34 +1,37 @@
-﻿using SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles.Exceptions;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.FileProviders;
+using SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles.Exceptions;
+using SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles.Providers;
 using System.Collections.Immutable;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles
 {
-    //only for testing purposes
-    internal interface ILegacyTblReader
-    {
-        Task<IDictionary<byte, TableNode>> FromDirectoryAsync(DirectoryInfo directory);
-    }
 
-    internal sealed class LegacyTblReader: ILegacyTblReader
+    internal sealed class LegacyTblReader : ILegacyTblReader
     {
         private const int MAX_INCLUDE_DEPTH = 2;
         private const string INCLUDE_COMMAND = ".include ";
         private const int INCLUDE_COMMAND_LENGTH = 9;
-        private const string INCLUDE_DIR = "tables";
+        private const string INCLUDE_DIR = "include";
         private static readonly char[] TABLE_SEPARATOR = ['='];
 
-        public async Task<IDictionary<byte, TableNode>> FromDirectoryAsync(DirectoryInfo directory)
+        private readonly ITblFileProvider _fileProvider;
+
+        public LegacyTblReader(ITblFileProvider fileProvider)
         {
-            ArgumentNullException.ThrowIfNull(directory);
+            ArgumentNullException.ThrowIfNull(fileProvider);
+            _fileProvider = fileProvider;
+        }
+
+        public async Task<IDictionary<byte, TableNode>> ReadTablesAsync()
+        {
+            var tblFiles = _fileProvider.GetDirectoryContents(string.Empty);
+            if (tblFiles.Exists == false)
+            {
+                throw new DirectoryNotFoundException();
+            }
 
             var root = new Dictionary<byte, TableNode>();
-            foreach (var file in directory.EnumerateFiles("*.tbl"))
+            foreach (var file in tblFiles)
             {
                 await ReadTablesAsync(file, root);
             }
@@ -36,17 +39,17 @@ namespace SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles
         }
 
 
-        private static async Task ReadTablesAsync(FileInfo file, IDictionary<byte, TableNode> root, int includeDepth = 0)
+        private async Task ReadTablesAsync(IFileInfo file, IDictionary<byte, TableNode> root, int includeDepth = 0)
         {
             ArgumentNullException.ThrowIfNull(file);
             ArgumentOutOfRangeException.ThrowIfNegative(includeDepth);
             ArgumentOutOfRangeException.ThrowIfGreaterThan(includeDepth, MAX_INCLUDE_DEPTH);
 
-            using var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var stream = file.CreateReadStream();
             using var reader = new StreamReader(stream);
             while (!reader.EndOfStream)
             {
-                var line = (await reader.ReadLineAsync())?.Trim() ?? "";
+                var line = (await reader.ReadLineAsync()) ?? "";
                 if (TryHandleEmpty(line))
                 {
                     continue;
@@ -66,9 +69,10 @@ namespace SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles
             }
         }
 
-        private static bool TryHandleInclude(string line, out FileInfo? includeFile)
+        private bool TryHandleInclude(string line, out IFileInfo? includeFile)
         {
             includeFile = null;
+            line = line.Trim();
             if (!line.StartsWith(INCLUDE_COMMAND))
             {
                 return false;
@@ -83,7 +87,7 @@ namespace SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles
                 throw new IncludeCommandFilenameException(fileName);
             }
             var filePath = Path.Combine(INCLUDE_DIR, fileName);
-            var file = new FileInfo(filePath);
+            var file = _fileProvider.GetFileInfo(filePath);
             if (!file.Exists)
             {
                 throw new IncludeCommandFileNotFoundException(fileName);
@@ -94,7 +98,7 @@ namespace SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles
 
         private static bool TryHandleEmpty(string line)
         {
-            return string.IsNullOrEmpty(line);
+            return string.IsNullOrWhiteSpace(line);
         }
 
         private static bool TryHandleAssignment(string line, out byte[] key, out string value)
@@ -102,6 +106,7 @@ namespace SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles
             key = [];
             value = string.Empty;
 
+            line = line.TrimStart();
             var parts = line.Split(TABLE_SEPARATOR, 2);
             if (parts.Length != 2)
             {

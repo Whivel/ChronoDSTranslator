@@ -2,7 +2,7 @@
 {
     public interface ITableConverter
     {
-        ConversionResult Next(byte value);
+        IConversionResult Next(IConversionResult token, byte value);
 
     }
 }

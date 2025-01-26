@@ -11,4 +11,9 @@
     <PackageReference Include="Yarhl.Media.Text" Version="4.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SceneGate.Games.ChronoTriggerDs.Tables.Core\SceneGate.Games.ChronoTriggerDs.Tables.Core.csproj" />
+    <ProjectReference Include="..\SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles\SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles.csproj" />
+  </ItemGroup>
+
 </Project>
