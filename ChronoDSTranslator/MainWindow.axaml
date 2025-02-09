@@ -2,8 +2,60 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:ChronoDSTranslator.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ChronoDSTranslator.MainWindow"
-        Title="ChronoDSTranslator">
-    Welcome to Avalonia!
+        Title="ChronoDSTranslator"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="Default"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        x:Name="Self">
+    <Grid RowDefinitions="Auto,*">
+        <Grid
+            Grid.Row="0"
+            Name="TitleBarHost"
+            ColumnDefinitions="Auto,*">
+
+            <Button Grid.Column="0"
+                    IsHitTestVisible="True"
+                    Margin="6,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    DockPanel.Dock="Left"
+                    FontWeight="Black"
+                    RenderOptions.TextRenderingMode="SubpixelAntialias"
+                    Padding="0"
+                    ToolTip.Tip="Back"
+                    Classes.Transparent="True"
+                    ToolTip.VerticalOffset="10">
+                <Image Width="24" Height="24">
+                    <Image.Source>
+                        <SvgImage Source="avares://ChronoDSTranslator/Assets/ic_fluent_arrow_left_24_regular.svg"
+                                  Css="{DynamicResource CssFill}" />
+                    </Image.Source>
+                </Image>
+            </Button>
+            <Grid Grid.Column="1" ColumnDefinitions="Auto,*" PointerPressed="InputElement_OnPointerPressed">
+                <Image Grid.Column="0"
+                       Height="20"
+                       Margin="12,12,0,4"
+                       DockPanel.Dock="Left"
+                       RenderOptions.BitmapInterpolationMode="HighQuality"
+                       Source="avares://ChronoDSTranslator/Assets/icon.png" />
+
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="8,8,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*">
+            <views:MainView Grid.Row="0" Grid.Column="1" />
+        </Grid>
+
+    </Grid>
 </Window>

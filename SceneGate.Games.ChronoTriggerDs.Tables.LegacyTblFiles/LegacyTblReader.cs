@@ -82,12 +82,7 @@ namespace SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles
             {
                 throw new IncludeCommandFilenameException(fileName);
             }
-            if (Path.GetInvalidFileNameChars().Any(fileName.Contains))
-            {
-                throw new IncludeCommandFilenameException(fileName);
-            }
-            var filePath = Path.Combine(INCLUDE_DIR, fileName);
-            var file = _fileProvider.GetFileInfo(filePath);
+            var file = _fileProvider.GetFileInfo(fileName);
             if (!file.Exists)
             {
                 throw new IncludeCommandFileNotFoundException(fileName);

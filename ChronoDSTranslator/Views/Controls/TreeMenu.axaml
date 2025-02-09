@@ -1,0 +1,98 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ChronoDSTranslator.Views.Controls.TreeMenu">
+    <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto,*">
+        <Border
+            Grid.Row="0"
+            Margin="4"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            BorderThickness="1"
+            CornerRadius="5">
+            <StackPanel Margin="1" Orientation="Horizontal">
+                <Button
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    ToolTip.Tip="Collapse All"
+                    ToolTip.VerticalOffset="10">
+                    <Image
+                        Width="16"
+                        Height="16"
+                        RenderOptions.BitmapInterpolationMode="HighQuality">
+                        <SvgImage Source="avares://ChronoDSTranslator/Assets/collpase_all.svg"
+                                  Css="{DynamicResource CssFill}" />
+                    </Image>
+                </Button>
+                <!-- Al momento non voglio dare l'expand all -->
+                <Button
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    IsVisible="False"
+                    IsEnabled="False"
+                    ToolTip.Tip="Expand All"
+                    ToolTip.VerticalOffset="10">
+                    <Image
+                        Width="16"
+                        Height="16"
+                        RenderOptions.BitmapInterpolationMode="HighQuality">
+                        <SvgImage Source="avares://ChronoDSTranslator/Assets/expand_all.svg"
+                                  Css="{DynamicResource CssFill}" />
+                    </Image>
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <StackPanel
+            Grid.Row="1" Grid.Column="0"
+            Margin="4,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Orientation="Vertical">
+            <TextBox
+                Name="SearchTextBox"
+                HorizontalAlignment="Stretch"
+                VerticalContentAlignment="Center"
+                AcceptsReturn="False"
+                Classes.IsSmall="True"
+                Classes.clearButton="True"
+                TextWrapping="NoWrap"
+                Watermark="Filter visible items">
+                <TextBox.Styles>
+                    <Style Selector="TextBox">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="InnerRightContent">
+                            <Template>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button
+                                            Content="&#xE8BB;"
+                                            RenderOptions.TextRenderingMode="SubpixelAntialias" />
+                                        <Button
+                                            Content="&#xE721;"
+                                            IsHitTestVisible="False"
+                                            RenderOptions.TextRenderingMode="SubpixelAntialias" />
+                                    </StackPanel>
+                                    <!-- <ui:ProgressRing
+                                        Margin="0,0,2,0"
+                                        IsIndeterminate="True"
+                                        IsVisible="{Binding IsBusy}"
+                                        RenderTransform="Scale(0.65, 0.65)" />-->
+                                </StackPanel>
+
+                            </Template>
+                        </Setter>
+
+                    </Style>
+                </TextBox.Styles>
+            </TextBox>
+        </StackPanel>
+
+        <ScrollViewer
+            Grid.Row="2" Grid.Column="0"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Visible" />
+    </Grid>
+</UserControl>

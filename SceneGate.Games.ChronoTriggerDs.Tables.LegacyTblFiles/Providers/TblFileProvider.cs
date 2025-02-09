@@ -37,6 +37,18 @@ namespace SceneGate.Games.ChronoTriggerDs.Tables.LegacyTblFiles.Providers
             return fileInfo;
         }
 
+        public IFileInfo GetFileInfoRelativeTo(IFileInfo relativeTo, string path)
+        {
+            ArgumentNullException.ThrowIfNull(relativeTo);
+            ArgumentNullException.ThrowIfNullOrEmpty(path);
+            var fileInfo = GetFileInfo(relativeTo.PhysicalPath + path);
+            if (!fileInfo.Exists || fileInfo.IsDirectory || !fileInfo.Name.EndsWith(TBL_EXTENSION))
+            {
+                return new NotFoundFileInfo(path);
+            }
+            return fileInfo;
+        }
+
         public IChangeToken Watch(string filter)
         {
             throw new NotImplementedException();
