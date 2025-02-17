@@ -54,7 +54,7 @@
         </Grid>
 
         <Grid Grid.Row="1" ColumnDefinitions="*">
-            <views:MainView Grid.Row="0" Grid.Column="1" />
+            <views:MainView Grid.Row="0" Grid.Column="0" />
         </Grid>
 
     </Grid>

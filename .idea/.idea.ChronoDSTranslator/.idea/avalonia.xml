@@ -9,11 +9,13 @@
         <entry key="ChronoDSTranslator/Resources/Styles.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Views/Controls/AppToolbar.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Views/Controls/CustomTitleBar.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
+        <entry key="ChronoDSTranslator/Views/Controls/ToolbarButton.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Views/Controls/TreeMenu.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Views/CustomTitleBar.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Views/MainView.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Views/Pages/EditorPage.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Views/Pages/SettingsPage.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
+        <entry key="ChronoDSTranslator/Views/Pages/WelcomePage.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Views/Pages/WelcomePahe.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
       </map>
     </option>

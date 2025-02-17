@@ -11,4 +11,14 @@
     <Style Selector="Button.Transparent">
         <Setter Property="Background" Value="Transparent" />
     </Style>
+
+    <Style Selector="Button.Selected">
+        <Setter Property="Background" Value="#FF0078D4" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style Selector="TextBlock.SettingsTitle">
+        <Setter Property="FontSize" Value="{DynamicResource TitleFontSize}" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
 </Styles>

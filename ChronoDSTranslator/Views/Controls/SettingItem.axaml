@@ -1,0 +1,29 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:ChronoDSTranslator.Views.Controls">
+    <Design.PreviewWith>
+        <controls:SettingItem>
+            <TextBox Text="Content" />
+        </controls:SettingItem>
+    </Design.PreviewWith>
+
+    <Style Selector="controls|SettingItem">
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Classes.Title="True" Text="Title" />
+                        <TextBlock Classes.Description="True" Text="BabboNatale" FontSize="{DynamicResource SubtitleFontSize}" Padding="0 4 0 0" />
+                        <ContentPresenter Content="{TemplateBinding Content}" Padding="0 8 0 0" />
+                    </StackPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Border">
+            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
+        </Style>
+    </Style>
+</Styles>

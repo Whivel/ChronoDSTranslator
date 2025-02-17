@@ -7,12 +7,16 @@
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://ChronoDSTranslator/Resources/Styles.axaml" />
+        <!-- Controls -->
+        <StyleInclude Source="avares://ChronoDSTranslator/Views/Controls/SettingItem.axaml" />
     </Application.Styles>
 
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="avares://ChronoDSTranslator/Resources/Resources.axaml" />
+                <ResourceInclude Source="avares://ChronoDSTranslator/Resources/Themes/Fluent/BaseTypography.axaml" />
+                <ResourceInclude Source="avares://ChronoDSTranslator/Resources/Themes/Fluent/FluentControlResources.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

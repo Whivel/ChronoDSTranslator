@@ -2,21 +2,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:ChronoDSTranslator.Views.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ChronoDSTranslator.Views.Controls.AppToolbar"
              Width="48" MinWidth="48" MaxWidth="48">
     <Grid RowDefinitions="Auto, *, Auto" HorizontalAlignment="Center">
         <DockPanel Grid.Row="0" Dock="Top">
             <StackPanel Orientation="Vertical">
-                <Button>
-                    <Image Width="24" Height="24">
-                        <Image.Source>
-                            <SvgImage
-                                Source="avares://ChronoDSTranslator/Assets/ic_fluent_folder_24_regular.svg"
-                                Css="{DynamicResource CssFill}" />
-                        </Image.Source>
-                    </Image>
-                </Button>
+                <controls:ToolbarButton IsSelected="True">
+                    <controls:ToolbarButton.Icon>
+                        <SvgImage
+                            Source="avares://ChronoDSTranslator/Assets/ic_fluent_folder_24_regular.svg"
+                            Css="{DynamicResource CssFill}" />
+                    </controls:ToolbarButton.Icon>
+                </controls:ToolbarButton>
 
             </StackPanel>
         </DockPanel>
