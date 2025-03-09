@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System.Windows.Input;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 
@@ -6,12 +7,17 @@ namespace ChronoDSTranslator.Views.Controls;
 
 public partial class ToolbarButton : UserControl
 {
-    private static readonly StyledProperty<IImage> IconProperty =
+    public static readonly StyledProperty<IImage> IconProperty =
         AvaloniaProperty.Register<ToolbarButton, IImage>(nameof(Icon));
 
-    private static readonly StyledProperty<bool> IsSelectedProperty =
+    public static readonly StyledProperty<bool> IsSelectedProperty =
         AvaloniaProperty.Register<ToolbarButton, bool>(nameof(IsSelected));
 
+    public static readonly StyledProperty<ICommand?> CommandProperty =
+        AvaloniaProperty.Register<Button, ICommand?>(nameof(Command), enableDataValidation: true);
+
+    public static readonly StyledProperty<object?> CommandParameterProperty =
+        AvaloniaProperty.Register<Button, object?>(nameof(CommandParameter));
 
     public ToolbarButton()
     {
@@ -28,5 +34,17 @@ public partial class ToolbarButton : UserControl
     {
         get => GetValue(IsSelectedProperty);
         set => SetValue(IsSelectedProperty, value);
+    }
+
+    public ICommand? Command
+    {
+        get => GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+
+    public object? CommandParameter
+    {
+        get => GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
     }
 }

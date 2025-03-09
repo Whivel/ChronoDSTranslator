@@ -6,9 +6,10 @@
              x:Class="ChronoDSTranslator.Views.Controls.ToolbarButton"
              x:Name="Self">
     <d:DesignData />
-    <Border Padding="2 0 0 0" BorderThickness="2 0 0 0" IsVisible="{Binding #Self.IsSelected, Mode=OneWay}"
-            BorderBrush="Aquamarine">
-        <Button IsHitTestVisible="{Binding !#Self.IsSelected, Mode=OneWay}">
+    <Border Padding="2 0 0 0" BorderThickness="2 0 0 0" Classes.Selected="{Binding #Self.IsSelected, Mode=OneWay}">
+        <Button IsHitTestVisible="{Binding !#Self.IsSelected, Mode=OneWay}"
+                Command="{Binding #Self.Command, Mode=OneWay}"
+                CommandParameter="{Binding #Self.CommandParameter, Mode=OneWay}">
             <Image Width="24" Height="24" Source="{Binding #Self.Icon, Mode=OneWay}" />
         </Button>
     </Border>

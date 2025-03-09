@@ -7,8 +7,11 @@
         <entry key="ChronoDSTranslator/MainWindow.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Resources/Resources.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Resources/Styles.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
+        <entry key="ChronoDSTranslator/Resources/Themes/Fluent/BaseTypography.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
+        <entry key="ChronoDSTranslator/Resources/Themes/Fluent/FluentControlResources.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Views/Controls/AppToolbar.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Views/Controls/CustomTitleBar.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
+        <entry key="ChronoDSTranslator/Views/Controls/SettingItem.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Views/Controls/ToolbarButton.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Views/Controls/TreeMenu.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />
         <entry key="ChronoDSTranslator/Views/CustomTitleBar.axaml" value="ChronoDSTranslator/ChronoDSTranslator.csproj" />

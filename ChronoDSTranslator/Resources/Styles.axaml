@@ -1,5 +1,6 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:ChronoDSTranslator.Views.Controls">
     <Design.PreviewWith>
         <Border Padding="20">
             <!-- Add Controls for Previewer Here -->
@@ -20,5 +21,12 @@
     <Style Selector="TextBlock.SettingsTitle">
         <Setter Property="FontSize" Value="{DynamicResource TitleFontSize}" />
         <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style Selector="controls|ToolbarButton Border">
+        <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="controls|ToolbarButton Border.Selected">
+        <Setter Property="BorderBrush" Value="Aqua" />
     </Style>
 </Styles>

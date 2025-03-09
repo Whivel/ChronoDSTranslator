@@ -7,11 +7,11 @@
              x:Class="ChronoDSTranslator.Views.Pages.SettingsPage">
     <StackPanel Orientation="Vertical">
         <TextBlock Text="Settings" Classes.SettingsTitle="True" />
-        <controls:SettingItem>
+        <controls:SettingItem Title="Prova" Description="Test Prova">
             <Calendar />
         </controls:SettingItem>
-        <controls:SettingItem>
-            <TextBox></TextBox>
+        <controls:SettingItem Title="ASD" Description="awdwad">
+            <TextBox />
         </controls:SettingItem>
     </StackPanel>
 

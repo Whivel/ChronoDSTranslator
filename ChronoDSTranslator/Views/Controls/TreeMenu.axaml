@@ -2,8 +2,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:ChronoDSTranslator.ViewModels"
+             xmlns:designViewModelsControls="clr-namespace:ChronoDSTranslator.Design.ViewModels.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ChronoDSTranslator.Views.Controls.TreeMenu">
+             x:Class="ChronoDSTranslator.Views.Controls.TreeMenu"
+             x:DataType="viewModels:Controls.TreeMenuViewModel">
+    <Design.DataContext>
+        <designViewModelsControls:DesignTreeMenuViewModel />
+    </Design.DataContext>
     <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto,*">
         <Border
             Grid.Row="0"
@@ -23,22 +29,6 @@
                         Height="16"
                         RenderOptions.BitmapInterpolationMode="HighQuality">
                         <SvgImage Source="avares://ChronoDSTranslator/Assets/collpase_all.svg"
-                                  Css="{DynamicResource CssFill}" />
-                    </Image>
-                </Button>
-                <!-- Al momento non voglio dare l'expand all -->
-                <Button
-                    Margin="5,0,0,0"
-                    VerticalAlignment="Center"
-                    IsVisible="False"
-                    IsEnabled="False"
-                    ToolTip.Tip="Expand All"
-                    ToolTip.VerticalOffset="10">
-                    <Image
-                        Width="16"
-                        Height="16"
-                        RenderOptions.BitmapInterpolationMode="HighQuality">
-                        <SvgImage Source="avares://ChronoDSTranslator/Assets/expand_all.svg"
                                   Css="{DynamicResource CssFill}" />
                     </Image>
                 </Button>
@@ -93,6 +83,26 @@
         <ScrollViewer
             Grid.Row="2" Grid.Column="0"
             HorizontalScrollBarVisibility="Auto"
-            VerticalScrollBarVisibility="Visible" />
+            VerticalScrollBarVisibility="Visible">
+            <TreeView ItemsSource="{Binding RootNode.Children.Items, Mode=OneWay}">
+                <TreeView.ItemTemplate>
+                    <TreeDataTemplate ItemsSource="{Binding Children.Items, Mode=OneWay}">
+                        <Grid ColumnDefinitions="24, *">
+                            <Image Grid.Column="0"
+                                   Source="{Binding Icon, Mode=OneWay}"
+                                   Width="24" Height="{Binding #TxtLabel.LineHeight,Mode=OneWay}"
+                                   Margin="0,0,8,0"
+                                   Stretch="Uniform"
+                                   VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Name="TxtLabel"
+                                       Text="{Binding Label, Mode=OneWay}"
+                                       AutomationProperties.HelpText="{Binding AriaLabel, Mode=OneWay}"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+
+                    </TreeDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </ScrollViewer>
     </Grid>
 </UserControl>

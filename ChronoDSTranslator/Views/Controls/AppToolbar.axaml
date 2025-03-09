@@ -3,13 +3,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:ChronoDSTranslator.Views.Controls"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:viewModels="clr-namespace:ChronoDSTranslator.ViewModels"
+             xmlns:designViewModelsControls="clr-namespace:ChronoDSTranslator.Design.ViewModels.Controls"
+             mc:Ignorable="d" d:DesignWidth="48" d:DesignHeight="450"
              x:Class="ChronoDSTranslator.Views.Controls.AppToolbar"
-             Width="48" MinWidth="48" MaxWidth="48">
+             Width="48" MinWidth="48" MaxWidth="48"
+             x:DataType="viewModels:Controls.AppToolbarViewModel">
+    <Design.DataContext>
+        <designViewModelsControls:DesignAppToolbarViewModel />
+    </Design.DataContext>
     <Grid RowDefinitions="Auto, *, Auto" HorizontalAlignment="Center">
         <DockPanel Grid.Row="0" Dock="Top">
             <StackPanel Orientation="Vertical">
-                <controls:ToolbarButton IsSelected="True">
+                <Button IsEnabled="True" Command="{Binding SelectFilesCommand, Mode=OneWay}">CIao</Button>
+                <controls:ToolbarButton IsSelected="{Binding IsFilesSelected^, Mode=OneWay}"
+                                        Command="{Binding SelectFilesCommand, Mode=OneWay}">
                     <controls:ToolbarButton.Icon>
                         <SvgImage
                             Source="avares://ChronoDSTranslator/Assets/ic_fluent_folder_24_regular.svg"
@@ -21,15 +29,13 @@
         </DockPanel>
         <DockPanel Grid.Row="2" Dock="Bottom">
             <StackPanel Orientation="Vertical">
-                <Button>
-                    <Image Width="24" Height="24">
-                        <Image.Source>
-                            <SvgImage
-                                Source="avares://ChronoDSTranslator/Assets/ic_fluent_settings_24_regular.svg"
-                                Css="{DynamicResource CssFill}" />
-                        </Image.Source>
-                    </Image>
-                </Button>
+                <controls:ToolbarButton IsSelected="True">
+                    <controls:ToolbarButton.Icon>
+                        <SvgImage
+                            Source="avares://ChronoDSTranslator/Assets/ic_fluent_settings_24_regular.svg"
+                            Css="{DynamicResource CssFill}" />
+                    </controls:ToolbarButton.Icon>
+                </controls:ToolbarButton>
             </StackPanel>
         </DockPanel>
     </Grid>

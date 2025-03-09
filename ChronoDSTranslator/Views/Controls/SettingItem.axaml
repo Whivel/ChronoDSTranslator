@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:ChronoDSTranslator.Views.Controls">
     <Design.PreviewWith>
-        <controls:SettingItem>
+        <controls:SettingItem Title="Title" Description="Description">
             <TextBox Text="Content" />
         </controls:SettingItem>
     </Design.PreviewWith>
@@ -12,9 +12,9 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Classes.Title="True" Text="Title" />
-                        <TextBlock Classes.Description="True" Text="BabboNatale" FontSize="{DynamicResource SubtitleFontSize}" Padding="0 4 0 0" />
+                    <StackPanel Orientation="Vertical" Background="Transparent">
+                        <TextBlock Classes.Title="True" Text="{TemplateBinding Title, Mode=OneWay}" />
+                        <TextBlock Classes.Description="True" Text="{TemplateBinding Description, Mode=OneWay}" FontSize="{DynamicResource SubtitleFontSize}" Padding="0 4 0 0" />
                         <ContentPresenter Content="{TemplateBinding Content}" Padding="0 8 0 0" />
                     </StackPanel>
                 </Border>
@@ -24,6 +24,9 @@
         <Style Selector="^:pointerover /template/ Border">
             <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
             <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ StackPanel">
+            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
         </Style>
     </Style>
 </Styles>
